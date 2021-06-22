@@ -1,0 +1,51 @@
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+.\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic logs
+.\bin\windows\kafka-topics.bat --list --zookeeper localhost:2181
+bin
+logstash -f logstash.config\server
+
+.\bin\windows\kafka-console-producer.bat --broker--list localhost:9092 --topic logs
+
+.\bin\kibana.bat
+
+.\bin\windows\kafka-topics.bat --list --zookeeper localhost:2181
+
+
+
+
+docker pull docker.elastic.co/logstash/logstash:7.13.1
+docker pull docker.elastic.co/elasticsearch/elasticsearch:7.13.1
+docker pull docker.elastic.co/kibana/kibana:7.13.1
+docker pull wurstmeister/kafka:2.13-2.6.0
+
+docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.13.1
+docker rmi -f $(docker images -a -q)
+
+docker images -a
+docker rmi $(docker images -a -q)
+
+docker ps -a
+docker rm ID_or_Name ID_or_Name
+_________________________________________
+
+
+
+
+docker-compose build
+docker-compose up
+$ docker-compose down -v
+https://github.com/deviantony/docker-elk
+
+https://www.javainuse.com/spring/springboot-microservice-elk#google_vignette
+
+docker network create elastic
+docker pull docker.elastic.co/elasticsearch/elasticsearch:7.13.1
+docker run --name es01-test --net elastic -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.13.1
+docker run --name test --net elastic -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.13.1
+docker run --rm -it -v ~/pipeline/:/Users/share/logstash/pipeline/ docker.elastic.co/logstash/logstash:7.13.1
+
+docker pull docker.elastic.co/kibana/kibana:7.13.1
+docker run --name kib01-test --net elastic -p 5601:5601 -e "ELASTICSEARCH_HOSTS=http://test:9200" docker.elastic.co/kibana/kibana:7.13.1
+docker run --name kib01-test --net elastic -p 5601:5601 -e "ELASTICSEARCH_HOSTS=http://es01-test:9200" docker.elastic.co/kibana/kibana:7.13.1
