@@ -4,7 +4,7 @@
 .\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic logs
 .\bin\windows\kafka-topics.bat --list --zookeeper localhost:2181
 bin
-logstash -f logstash.config\server
+logstash -f logstash.conf
 
 .\bin\windows\kafka-console-producer.bat --broker--list localhost:9092 --topic logs
 
